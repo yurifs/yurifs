@@ -69,7 +69,8 @@ def generate(args):
         languages = DEMO_LANGUAGES
     else:
         # Fetch GitHub data
-        api = GitHubAPI(username)
+        token = os.getenv("GITHUB_TOKEN")
+        api = GitHubAPI(username, token=token)
 
         logger.info("Fetching stats...")
         try:
