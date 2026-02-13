@@ -64,24 +64,34 @@ class GitHubAPI:
         query = """
         query($username: String!) {
           user(login: $username) {
-            repositoriesContributedTo(contributionTypes: [COMMIT, PULL_REQUEST, ISSUE]) {
-              totalCount
-            }
-            pullRequests {
-              totalCount
-            }
-            issues {
-              totalCount
-            }
-            repositories(ownerAffiliations: OWNER, first: 100) {
+            repositoriesContributedTo(
+              contributionTypes: [COMMIT, PULL_REQUEST, ISSUE, PULL_REQUEST_REVIEW]
+              first: 100
+              includeUserRepositories: true
+            ) {
               totalCount
               nodes {
+                id
+                stargazerCount
+              }
+            }
+            repositories(
+              ownerAffiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]
+              first: 100
+              isFork: false
+            ) {
+              totalCount
+              nodes {
+                id
                 stargazerCount
               }
             }
             contributionsCollection {
               totalCommitContributions
               restrictedContributionsCount
+              totalPullRequestContributions
+              totalIssueContributions
+              totalPullRequestReviewContributions
             }
           }
         }
@@ -109,18 +119,33 @@ class GitHubAPI:
         user = data["data"]["user"]
         contrib = user["contributionsCollection"]
         repos = user["repositories"]
+        owned_repos = user["repositories"]["nodes"]
+        contrib_repos = user["repositoriesContributedTo"]["nodes"]
 
-        total_stars = sum(n["stargazerCount"] for n in repos["nodes"])
+
+        total_stars = sum(n["stargazerCount"] for n in owned_repos)
         total_commits = (
             contrib["totalCommitContributions"]
             + contrib["restrictedContributionsCount"]
         )
 
+        # soma contrib repos (sem duplicar)
+        seen = set()
+
+        for r in owned_repos:
+            seen_ids.add(r["id"])
+            total_stars += r["stargazerCount"]
+
+        for r in contrib_repos:
+            if r["id"] not in seen_ids:
+                total_stars += r["stargazerCount"]
+
         return {
             "commits": total_commits,
             "stars": total_stars,
-            "prs": user["pullRequests"]["totalCount"],
-            "issues": user["issues"]["totalCount"],
+            "prs": contrib["totalPullRequestContributions"],
+            "issues": contrib["totalIssueContributions"],
+            "reviews": contrib["totalPullRequestReviewContributions"],
             "repos": repos["totalCount"],
         }
 
