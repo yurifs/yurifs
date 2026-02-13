@@ -67,7 +67,7 @@ class GitHubAPI:
             pullRequests(first: 1) {
               totalCount
             }
-            issues {
+            issues(first: 1) {
               totalCount
             }
             contributionsCollection() {
@@ -115,6 +115,8 @@ class GitHubAPI:
             return self._fetch_stats_rest()
 
         data = resp.json()
+
+        logger.info("GraphQL raw response: %s", data)
 
         if "errors" in data:
             logger.warning("GraphQL errors: %s", data["errors"])
