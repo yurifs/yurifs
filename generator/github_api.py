@@ -130,11 +130,7 @@ class GitHubAPI:
         )
 
         # soma contrib repos (sem duplicar)
-        seen = set()
-
-        for r in owned_repos:
-            seen_ids.add(r["id"])
-            total_stars += r["stargazerCount"]
+        seen_ids = {r["id"] for r in owned_repos}
 
         for r in contrib_repos:
             if r["id"] not in seen_ids:
