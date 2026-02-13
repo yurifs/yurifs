@@ -64,16 +64,16 @@ class GitHubAPI:
         query = """
         query($username: String!) {
           user(login: $username) {
-            repositoriesContributedTo(
-              contributionTypes: [COMMIT, PULL_REQUEST, ISSUE, PULL_REQUEST_REVIEW]
-              first: 100
-              includeUserRepositories: true
-            ) {
+            pullRequests(first: 1) {
               totalCount
-              nodes {
-                id
-                stargazerCount
-              }
+            }
+            issues {
+              totalCount
+            }
+            contributionsCollection() {
+              totalCommitContributions
+              restrictedContributionsCount
+              totalPullRequestReviewContributions
             }
             repositories(
               ownerAffiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]
@@ -86,14 +86,16 @@ class GitHubAPI:
                 stargazerCount
               }
             }
-            contributionsCollection(
-              from: "2020-10-01T00:00:00Z"
+            repositoriesContributedTo(
+              contributionTypes: [COMMIT, PULL_REQUEST, ISSUE, PULL_REQUEST_REVIEW]
+              first: 100
+              includeUserRepositories: true
             ) {
-              totalCommitContributions
-              restrictedContributionsCount
-              totalPullRequestContributions
-              totalIssueContributions
-              totalPullRequestReviewContributions
+              totalCount
+              nodes {
+                id
+                stargazerCount
+              }
             }
           }
         }
@@ -118,7 +120,12 @@ class GitHubAPI:
             logger.warning("GraphQL errors: %s", data["errors"])
             return self._fetch_stats_rest()
 
-        user = data["data"]["user"]
+        user = data.get("data", {}).get("user")
+
+        if not user:
+            logger.warning("User not found in GraphQL response.")
+            return self._fetch_stats_rest()
+
         contrib = user["contributionsCollection"]
         repos = user["repositories"]
         owned_repos = user["repositories"]["nodes"]
@@ -141,8 +148,8 @@ class GitHubAPI:
         return {
             "commits": total_commits,
             "stars": total_stars,
-            "prs": contrib["totalPullRequestContributions"],
-            "issues": contrib["totalIssueContributions"],
+            "prs": user["pullRequests"]["totalCount"],
+            "issues": user["issues"]["totalCount"],
             "reviews": contrib["totalPullRequestReviewContributions"],
             "repos": repos["totalCount"],
         }
@@ -216,7 +223,6 @@ class GitHubAPI:
             )
             if resp.status_code == 200:
                 return resp.json().get("total_count", 0)
-            logger.info("Search query: %s → %s", query, resp.json())
             logger.warning("Search API returned %d for query '%s'", resp.status_code, query)
         except requests.exceptions.RequestException as e:
             logger.warning("Search API failed for '%s': %s", query, e)
