@@ -86,7 +86,9 @@ class GitHubAPI:
                 stargazerCount
               }
             }
-            contributionsCollection {
+            contributionsCollection(
+              from: "2020-10-01T00:00:00Z"
+            ) {
               totalCommitContributions
               restrictedContributionsCount
               totalPullRequestContributions
@@ -214,6 +216,7 @@ class GitHubAPI:
             )
             if resp.status_code == 200:
                 return resp.json().get("total_count", 0)
+            logger.info("Search query: %s → %s", query, resp.json())
             logger.warning("Search API returned %d for query '%s'", resp.status_code, query)
         except requests.exceptions.RequestException as e:
             logger.warning("Search API failed for '%s': %s", query, e)
