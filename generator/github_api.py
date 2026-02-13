@@ -70,7 +70,7 @@ class GitHubAPI:
             issues(first: 1) {
               totalCount
             }
-            contributionsCollection() {
+            contributionsCollection {
               totalCommitContributions
               restrictedContributionsCount
               totalPullRequestReviewContributions

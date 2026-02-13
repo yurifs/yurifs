@@ -27,13 +27,6 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Test GitHub API auth
-        run: |
-          curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
-              https://api.github.com/user | jq '.login'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GALAXY_PROFILE_TOKEN }}
-
       - name: Generate SVGs
         env:
           GITHUB_TOKEN: ${{ secrets.GALAXY_PROFILE_TOKEN }}
