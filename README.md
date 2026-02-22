@@ -35,25 +35,25 @@
   <tr>
     <td align="center" width="128">
       <a href="#-frontend">
-        <img src="https://skillicons.dev/icons?i=react,nextjs,angular,ts" width="48" height="48" alt="Frontend" />
+        <img src="https://skillicons.dev/icons?i=react,nextjs,angular,ts" width="84" height="48" alt="Frontend" />
       </a>
       <br>Frontend
     </td>
     <td align="center" width="96">
       <a href="#-backend">
-        <img src="https://skillicons.dev/icons?i=nodejs,php" width="48" height="48" alt="Backend" />
+        <img src="https://skillicons.dev/icons?i=nodejs,php" width="44" height="48" alt="Backend" />
       </a>
       <br>Backend
     </td>
     <td align="center" width="96">
       <a href="#-databases">
-        <img src="https://skillicons.dev/icons?i=mongodb,mysql,postgres" width="48" height="48" alt="Databases" />
+        <img src="https://skillicons.dev/icons?i=mongodb,mysql,postgres" width="64" height="48" alt="Databases" />
       </a>
       <br>Databases
     </td>
     <td align="center" width="96">
       <a href="#-devops--tools">
-        <img src="https://skillicons.dev/icons?i=docker,git,github" width="48" height="48" alt="DevOps" />
+        <img src="https://skillicons.dev/icons?i=docker,git,github" width="60" height="48" alt="DevOps" />
       </a>
       <br>DevOps & Tools
     </td>
