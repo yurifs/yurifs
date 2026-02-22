@@ -33,7 +33,7 @@
 
 <table align="center">
   <tr>
-    <td align="center" width="96">
+    <td align="center" width="128">
       <a href="#-frontend">
         <img src="https://skillicons.dev/icons?i=react,nextjs,angular,ts" width="48" height="48" alt="Frontend" />
       </a>
