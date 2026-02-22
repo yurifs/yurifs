@@ -14,16 +14,18 @@
 🚀 Software Engineer specialized in mobile and web development with 8+ years of experience
 
 💻 TECHNICAL EXPERTISE:
-• Mobile development with React Native (main focus)
-• Modern frontend with Next.js, React, and TypeScript
-• Backend development with Laravel and Node.js
-• App management and releases on the Apple App Store and Google Play Store
+
+- &nbsp; Mobile development with React Native (main focus)
+- &nbsp; Modern frontend with Next.js, React, and TypeScript
+- &nbsp; Backend development with Laravel and Node.js
+- &nbsp; App management and releases on the Apple App Store and Google Play Store
 
 ⚡ KEY ACHIEVEMENTS:
-• Developed and evolved complete digital ecosystems at Ailu
-• Implemented solutions focused on performance, scalability, and UX
-• Contributed to defining code and architecture best practices
-• Experience across the full lifecycle: development → release → monitoring
+
+- &nbsp; Developed and evolved complete digital ecosystems at Ailu
+- &nbsp; Implemented solutions focused on performance, scalability, and UX
+- &nbsp; Contributed to defining code and architecture best practices
+- &nbsp; Experience across the full lifecycle: development → release → monitoring
 
 ---
 
